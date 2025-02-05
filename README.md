@@ -109,10 +109,28 @@ zkstack server --chain eigenda
 
 Each time a blob is dispersed, the era server will log something like this:
 ```bash
-TODO: SAMPLE OUTPUT
+2025-02-05T18:10:47.438337Z  INFO zksync_da_dispatcher::da_dispatcher: Dispatched a DA for batch_number: 1, pubdata_size: 5312, dispatch_latency: 30.454ms
+```
+And when its inclusion is confirmed, it will log something like this:
+```bash
+2025-02-05T18:12:21.878369Z  INFO zksync_da_dispatcher::da_dispatcher: Received an inclusion data for a batch_number: 1, inclusion_latency_seconds: 60
 ```
 
-## Chain recosntruction script
+You can access the postgres database running inside docker to retrieve the dispatched blob ids with their corresponding inclusion data:
+```bash
+docker exec -it zksync-era-postgres-1 psql -U postgres -d zksync_server_localhost_eigenda
+\x on # to enable expanded display
+SELECT blob_id, inclusion_data FROM data_availability;
+```
+> The inclusion data field is the abi encoded data of the [blob info](https://github.com/lambdaclass/eigenda-client-rs/blob/master/src/blob_info.rs#L154).
+This data is stored in the db only when the disperser confirms the inclusion of the dispatched blob, If it's present in the table, it means the blob was successfully dispersed, if it's not, it means that the blob is still pending to be confirmed.
+
+You can generate more transactions (thus more blobs) by running the integration tests:
+```bash
+zkstack dev test integration --chain eigenda
+```
+
+## Chain reconstruction script
 
 This is a proof of concept that demostrates how it would be possible to rebuild a chain (zksync-era in this case) from scratch only using data from Ethereum L1 and the EigenDA disperser.
 
