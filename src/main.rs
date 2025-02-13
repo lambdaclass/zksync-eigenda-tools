@@ -1,36 +1,21 @@
-use crate::utils::get_transactions;
-use alloy::{network::Ethereum, primitives::Address, providers::RootProvider};
-use std::str::FromStr;
+// use crate::utils::get_transactions;
+use utils::get_blobs;
 
 mod blob_info;
 mod client;
 mod generated;
 mod utils;
+mod verify_blob;
 
 const EIGENDA_API_URL: &str = "https://disperser-holesky.eigenda.xyz:443";
+const DB_CONN_CONFIG: &str = "host=localhost user=postgres password=notsecurepassword dbname=zksync_server_localhost_eigenda";
 const BLOB_DATA_JSON: &str = "blob_data.json";
-const ABI_JSON: &str = "./abi/commitBatchesSharedBridge.json";
-const COMMIT_BATCHES_SELECTOR: &str = "98f81962";
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
-    let args: Vec<String> = std::env::args().collect();
-
-    if args.len() != 4 {
-        eprintln!("Usage: cargo run <validatorTimelockAddress> <rpc_url> <block_start>");
-        std::process::exit(1);
-    }
-
-    let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
-
-    let validator_timelock_address = Address::from_str(&args[1])?;
-    let url = alloy::transports::http::reqwest::Url::from_str(&args[2])?;
-    let provider: RootProvider<
-        alloy::transports::http::Http<alloy::transports::http::Client>,
-        Ethereum,
-    > = RootProvider::new_http(url);
-
-    let block_start = args[3].parse::<u64>()?;
-
-    get_transactions(&provider, validator_timelock_address, block_start).await
+    let blobs = get_blobs().await?;
+    let json_string = serde_json::to_string_pretty(&blobs)?;
+    std::fs::write(BLOB_DATA_JSON, json_string)?;
+    println!("\x1b[32mData stored in blob_data.json file.\x1b[0m");
+    Ok(())
 }
