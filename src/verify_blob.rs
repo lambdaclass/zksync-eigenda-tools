@@ -83,6 +83,8 @@ sol! {
         BatchHeader batchHeader;
         bytes32 signatoryRecordHash;
         uint32 confirmationBlockNumber;
+        bytes batch_header_hash;
+        bytes fee;
     }
 
     struct BlobVerificationProof {
@@ -151,8 +153,8 @@ impl From<BatchMetadata> for crate::blob_info::BatchMetadata {
             batch_header: crate::blob_info::BatchHeader::from(metadata.batchHeader),
             signatory_record_hash: metadata.signatoryRecordHash.to_vec(),
             confirmation_block_number: metadata.confirmationBlockNumber,
-            fee: vec![],
-            batch_header_hash: vec![],
+            fee: metadata.fee.to_vec(),
+            batch_header_hash: metadata.batch_header_hash.to_vec(),
         }
     }
 }
@@ -271,6 +273,8 @@ pub fn decode_blob_info(
         batchHeader: batch_header,
         signatoryRecordHash: extract_fixed_bytes::<32>(&batch_metadata_tokens[1])?,
         confirmationBlockNumber: extract_uint32(&batch_metadata_tokens[2])?,
+        batch_header_hash: extract_bytes(&batch_metadata_tokens[3])?,
+        fee: extract_bytes(&batch_metadata_tokens[4])?,
     };
 
     let blob_verification_proof = BlobVerificationProof {
