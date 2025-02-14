@@ -2,14 +2,6 @@
 
 ## Elastic chain setup
 
-### Prerequisites
-
-To get started, you need to have Rust installed.
-
-Next, you will also need to have the `cargo-risczero` tool installed.
-
-### Setup chain
-
 #### Run the eigenda devnet:
 
 **Install devnet:**
@@ -38,6 +30,8 @@ Save ports for `el-1-besu-lighthouse: rpc` and `disperser: grpc`, and addresses 
 #### Run zksync-era ([eigenda-m0 branch on lambdaclass fork](https://github.com/lambdaclass/zksync-era/tree/eigenda-m0)):
 
 **Install zkstack:**
+
+Note: you need to have Rust installed for this step.
 
 ```bash
 cd ./zkstack_cli/zkstackup
@@ -75,6 +69,15 @@ da:
 ```
 
 **Copy the _resources_ folder inside _eigenda_ to _zksync-era_ root directory.**
+
+**Downgrade zksync-forge**
+
+The latest version of zksync-forge is still not compatible with `zkstack`, so you need to downgrade it to a compatible version.
+
+```bash
+curl -L https://raw.githubusercontent.com/matter-labs/foundry-zksync/main/install-foundry-zksync | bash
+foundryup-zksync --commit 27360d4c8d12beddbb730dae07ad33a206b38f4b
+```
 
 **Finally, `create`, `init` and `start` the chain:**
 
