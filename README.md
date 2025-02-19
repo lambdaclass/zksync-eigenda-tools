@@ -47,7 +47,7 @@ zkstackup --local
 **Modify config files:**
 
 `etc/env/file_based/overrides/validium.yaml`:
-```
+```yaml
 da_client:
   eigen:
     disperser_rpc: http://<disperser: grpc>
@@ -62,7 +62,7 @@ da_client:
 ```
 
 `etc/env/file_based/secrets.yaml`:
-```
+```yaml
 da:
   eigen:
     private_key: <your_private_key>
