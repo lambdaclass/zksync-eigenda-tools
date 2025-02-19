@@ -27,7 +27,7 @@ avs-devnet get-address eigenda_addresses:
 
 Save ports for `el-1-besu-lighthouse: rpc` and `disperser: grpc`, and addresses of `blobVerifier` and `eigenDAServiceManager`.
 
-#### Run zksync-era ([eigenda-m0 branch on lambdaclass fork](https://github.com/lambdaclass/zksync-era/tree/eigenda-m0)):
+#### Run zksync-era ([eigenda-m1 branch on lambdaclass fork](https://github.com/lambdaclass/zksync-era/tree/eigenda-m1)):
 
 **Install zkstack:**
 
@@ -47,7 +47,7 @@ zkstackup --local
 **Modify config files:**
 
 `etc/env/file_based/overrides/validium.yaml`:
-```
+```yaml
 da_client:
   eigen:
     disperser_rpc: http://<disperser: grpc>
@@ -56,13 +56,13 @@ da_client:
     eigenda_svc_manager_address: <eigenDAServiceManager>
     wait_for_finalization: false
     authenticated: false
-    points_source: ./resources
-    g1_url: https://github.com/Layr-Labs/eigenda-proxy/raw/2fd70b99ef5bf137d7bbca3461cf9e1f2c899451/resources/g1.point
-    g2_url: https://github.com/Layr-Labs/eigenda-proxy/raw/2fd70b99ef5bf137d7bbca3461cf9e1f2c899451/resources/g2.point.powerOf2
+    url:
+      g1_url: https://github.com/Layr-Labs/eigenda-proxy/raw/2fd70b99ef5bf137d7bbca3461cf9e1f2c899451/resources/g1.point
+      g2_url: https://github.com/Layr-Labs/eigenda-proxy/raw/2fd70b99ef5bf137d7bbca3461cf9e1f2c899451/resources/g2.point.powerOf2
 ```
 
 `etc/env/file_based/secrets.yaml`:
-```
+```yaml
 da:
   eigen:
     private_key: <your_private_key>
