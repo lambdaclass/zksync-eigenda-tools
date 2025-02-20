@@ -16,8 +16,8 @@ const COMMIT_BATCHES_SELECTOR: &str = "98f81962";
 async fn main() -> anyhow::Result<()> {
     let args: Vec<String> = std::env::args().collect();
 
-    if args.len() != 4 {
-        eprintln!("Usage: cargo run <validatorTimelockAddress> <rpc_url> <block_start>");
+    if args.len() != 5 {
+        eprintln!("Usage: cargo run <validatorTimelockAddress> <rpc_url> <block_start> <disperser_url>");
         std::process::exit(1);
     }
 
@@ -29,8 +29,9 @@ async fn main() -> anyhow::Result<()> {
         alloy::transports::http::Http<alloy::transports::http::Client>,
         Ethereum,
     > = RootProvider::new_http(url);
-
+    
     let block_start = args[3].parse::<u64>()?;
+    let disperser_url = &args[4];
 
-    get_transactions(&provider, validator_timelock_address, block_start).await
+    get_transactions(&provider, validator_timelock_address, block_start,disperser_url).await
 }
