@@ -6,7 +6,7 @@
 
 **Install devnet:**
 
-Clone [avs-devnet](https://github.com/Layr-Labs/avs-devnet) repository and install the `avs-devnet` tool by running
+Clone [avs-devnet](https://github.com/Layr-Labs/avs-devnet) repository, make sure to install kurtosis 1.4.3 and install the `avs-devnet` tool by running
 
 ```bash
 make deps      # installs dependencies
@@ -56,9 +56,7 @@ da_client:
     eigenda_svc_manager_address: <eigenDAServiceManager>
     wait_for_finalization: false
     authenticated: false
-    url:
-      g1_url: https://github.com/Layr-Labs/eigenda-proxy/raw/2fd70b99ef5bf137d7bbca3461cf9e1f2c899451/resources/g1.point
-      g2_url: https://github.com/Layr-Labs/eigenda-proxy/raw/2fd70b99ef5bf137d7bbca3461cf9e1f2c899451/resources/g2.point.powerOf2
+    path: ./resources
 ```
 
 `etc/env/file_based/secrets.yaml`:
