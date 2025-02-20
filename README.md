@@ -6,7 +6,7 @@
 
 **Install devnet:**
 
-Clone [avs-devnet](https://github.com/Layr-Labs/avs-devnet) repository and install the `avs-devnet` tool by running
+Clone [avs-devnet](https://github.com/Layr-Labs/avs-devnet) repository, make sure to install kurtosis 1.4.3 and install the `avs-devnet` tool by running
 
 ```bash
 make deps      # installs dependencies
