@@ -27,7 +27,7 @@ avs-devnet get-address eigenda_addresses:
 
 Save ports for `el-1-besu-lighthouse: rpc` and `disperser: grpc`, and addresses of `blobVerifier` and `eigenDAServiceManager`.
 
-#### Run zksync-era ([eigenda-m1 branch on lambdaclass fork](https://github.com/lambdaclass/zksync-era/tree/eigenda-m1)):
+#### Run zksync-era ([eigenda-m0 branch on lambdaclass fork](https://github.com/lambdaclass/zksync-era/tree/eigenda-m0)):
 
 **Install zkstack:**
 
@@ -121,39 +121,8 @@ Each time a blob is dispersed, the era server will log something like this:
 ```bash
 2025-02-05T18:10:47.438337Z  INFO zksync_da_dispatcher::da_dispatcher: Dispatched a DA for batch_number: 1, pubdata_size: 5312, dispatch_latency: 30.454ms
 ```
-And when its inclusion is confirmed, it will log something like this:
-```bash
-2025-02-05T18:12:21.878369Z  INFO zksync_da_dispatcher::da_dispatcher: Received an inclusion data for a batch_number: 1, inclusion_latency_seconds: 60
-```
-
-You can access the postgres database running inside docker to retrieve the dispatched blob ids with their corresponding inclusion data:
-```bash
-docker exec -it zksync-era-postgres-1 psql -U postgres -d zksync_server_localhost_eigenda
-\x on # to enable expanded display
-SELECT blob_id, inclusion_data FROM data_availability;
-```
-> The inclusion data field is the abi encoded data of the [blob info](https://github.com/lambdaclass/eigenda-client-rs/blob/master/src/blob_info.rs#L154).
-This data is stored in the db only when the disperser confirms the inclusion of the dispatched blob, If it's present in the table, it means the blob was successfully dispersed, if it's not, it means that the blob is still pending to be confirmed.
 
 You can generate more transactions (thus more blobs) by running the integration tests:
 ```bash
 zkstack dev test integration --chain eigenda
 ```
-
-## Chain reconstruction script
-
-This is a proof of concept that demostrates how it would be possible to rebuild a chain (zksync-era in this case) from scratch only using data from Ethereum L1 and the EigenDA disperser.
-
-**Run the program with the following command:**
-```sh
-cargo run --release -- <VALIDATOR_TIMELOCK_ADDR> <ETHEREUM_ETH_RCP> <STARTING_BLOCK> <DISPERSER_URL>
-```
-
-**If for example you want to run with a local zkstack, L1 node and holesky disperser, you can run the following command:**
-```sh
-cargo run --release -- 0x349f3f99b60bfeeb785558abbe1ede083da90b1e http://127.0.0.1:8545 0 https://disperser-holesky.eigenda.xyz:443
-```
-
-> Note: The `VALIDATOR_TIMELOCK_ADDR` can be found in `/chains/<chain_name>/configs/general.yaml` of the deployed zkstack.
-
-Once the program finishes, it will generate a json file containing a list of all the dispersed blobs, in a tuple format of `blob_info` and the `blob` itself.
