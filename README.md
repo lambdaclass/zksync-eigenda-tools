@@ -59,13 +59,13 @@ da_dispatcher:
 ```yaml
 da_client:
   eigen:
-      disperser_rpc: http://<disperser: grpc>
-      settlement_layer_confirmation_depth: 0
-      eigenda_eth_rpc: http://<el-1-besu-lighthouse: rpc>
-      eigenda_svc_manager_address: <eigenDAServiceManager>
-      wait_for_finalization: false
-      authenticated: false
-      points_source_path: ./resources
+    disperser_rpc: http://<disperser: grpc>
+    settlement_layer_confirmation_depth: 0
+    eigenda_eth_rpc: http://<el-1-besu-lighthouse: rpc>
+    eigenda_svc_manager_address: <eigenDAServiceManager>
+    wait_for_finalization: false
+    authenticated: false
+    points_source_path: ./resources
 ```
 
 `etc/env/file_based/secrets.yaml`:
