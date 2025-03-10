@@ -6,7 +6,7 @@
 
 **Install devnet:**
 
-Clone [avs-devnet](https://github.com/Layr-Labs/avs-devnet) repository, make sure to install kurtosis 1.4.3 and install the `avs-devnet` tool by running
+Clone [avs-devnet](https://github.com/Layr-Labs/avs-devnet) repository, make sure to install kurtosis 1.4.4 and install the `avs-devnet` tool by running
 
 ```bash
 make deps      # installs dependencies
@@ -46,17 +46,26 @@ zkstackup --local
 
 **Modify config files:**
 
+`etc/env/file_based/general.yaml`:
+```yaml
+da_dispatcher:
+  polling_interval_ms: 5000
+  max_rows_to_dispatch: 100
+  max_retries: 5
+  use_dummy_inclusion_data: true
+```
+
 `etc/env/file_based/overrides/validium.yaml`:
 ```yaml
 da_client:
   eigen:
-    disperser_rpc: http://<disperser: grpc>
-    settlement_layer_confirmation_depth: 0
-    eigenda_eth_rpc: http://<el-1-besu-lighthouse: rpc>
-    eigenda_svc_manager_address: <eigenDAServiceManager>
-    wait_for_finalization: false
-    authenticated: false
-    path: ./resources
+      disperser_rpc: http://<disperser: grpc>
+      settlement_layer_confirmation_depth: 0
+      eigenda_eth_rpc: http://<el-1-besu-lighthouse: rpc>
+      eigenda_svc_manager_address: <eigenDAServiceManager>
+      wait_for_finalization: false
+      authenticated: false
+      points_source_path: ./resources
 ```
 
 `etc/env/file_based/secrets.yaml`:
