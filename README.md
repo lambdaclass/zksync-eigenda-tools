@@ -1,5 +1,5 @@
-> [!Disclaimer]
-> The following documentation is still WIP, intended to be used for the M1 implementation.
+
+> ⚠️ Disclaimer: The following documentation is still WIP, intended to be used for the M1 implementation.
 > To setup a chain with M0, refer to [m0.md](m0.md)
 
 # ZKsync EigenDA tools
