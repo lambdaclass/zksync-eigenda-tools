@@ -22,6 +22,14 @@ add the following line on `contracts/script/SetUpEigenDA.s.sol` on eigenda:
 
 Line 214: `vm.serializeAddress(output,"blobVerifier", address(eigenDABlobVerifier));`
 
+and also add the following rich accounts in `devnet.yaml`:
+```yaml
+  - name: zksync_rich_1
+    address: "0xE90E12261CCb0F3F7976Ae611A29e84a6A85f424"
+  - name: zksync_rich_2
+    address: "0xe706e60ab5Dc512C36A4646D719b889F398cbBcB"
+```
+
 **Retrieve necessary info about the devnet:**
 
 ```bash
