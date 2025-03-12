@@ -157,6 +157,6 @@ cargo run --release -- <VALIDATOR_TIMELOCK_ADDR> <ETHEREUM_ETH_RCP> <STARTING_BL
 cargo run --release -- 0x349f3f99b60bfeeb785558abbe1ede083da90b1e http://127.0.0.1:8545 0 https://disperser-holesky.eigenda.xyz:443
 ```
 
-> Note: The `VALIDATOR_TIMELOCK_ADDR` can be found in `/chains/<chain_name>/configs/general.yaml` of the deployed zkstack.
+> Nota: The `VALIDATOR_TIMELOCK_ADDR` can be found in `/chains/<chain_name>/configs/general.yaml` of the deployed zkstack.
 
 Once the program finishes, it will generate a json file containing a list of all the dispersed blobs, in a tuple format of `blob_info` and the `blob` itself.
