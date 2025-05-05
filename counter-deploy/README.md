@@ -6,6 +6,12 @@ First we need to deposit funds into the L2
 npx zksync-cli bridge deposit --rpc=http://127.0.0.1:3150 --l1-rpc=<your_l1_rpc>
 ```
 
+Install the dependencies
+
+```
+npm install -D @matterlabs/hardhat-zksync-deploy hardhat zksync-ethers ethers @matterlabs/hardhat-zksync-ethers dotenv
+```
+
 Modify on `hardhat.config.ts` the `ethNetwork` for your L1 URL
 
 Next deploy the counter contract
