@@ -60,7 +60,7 @@ fn extract_bytes(token: &Token) -> anyhow::Result<Vec<u8>> {
     }
 }
 
-async fn get_blob(blob_info: BlobInfo,disperser_url: &str) -> anyhow::Result<Vec<u8>> {
+async fn get_blob(blob_info: BlobInfo, disperser_url: &str) -> anyhow::Result<Vec<u8>> {
     let client = EigenClientRetriever::new(disperser_url).await?;
     let data = client
         .get_blob_data(blob_info)
@@ -102,7 +102,7 @@ pub(crate) async fn get_transactions(
                         let selector = &input[0..4];
                         println!("selector {:?}", hex::encode(selector));
                         if selector == hex::decode(COMMIT_BATCHES_SELECTOR)? {
-                            match decode_blob_data_input(&input[4..],disperser_url).await {
+                            match decode_blob_data_input(&input[4..], disperser_url).await {
                                 Ok(decoded) => {
                                     for blob in decoded {
                                         json_array.push(blob);
@@ -131,7 +131,10 @@ pub(crate) async fn get_transactions(
     Ok(())
 }
 
-async fn decode_blob_data_input(input: &[u8],disperser_url: &str) -> anyhow::Result<Vec<BlobData>> {
+async fn decode_blob_data_input(
+    input: &[u8],
+    disperser_url: &str,
+) -> anyhow::Result<Vec<BlobData>> {
     let json = std::fs::read_to_string(ABI_JSON)?;
     let json_abi: JsonAbi = serde_json::from_str(&json)?;
     let function = json_abi
@@ -184,7 +187,9 @@ async fn decode_blob_data_input(input: &[u8],disperser_url: &str) -> anyhow::Res
     for batch_info in commit_batch_info {
         if let Token::Tuple(batch_info) = batch_info {
             if let Some(Token::Bytes(operator_da_input)) = batch_info.get(9) {
-                match get_blob_from_operator_da_input(operator_da_input.clone(),disperser_url).await {
+                match get_blob_from_operator_da_input(operator_da_input.clone(), disperser_url)
+                    .await
+                {
                     Ok(blob_data) => blobs.push(blob_data),
                     Err(_) => return Err(anyhow::anyhow!("Error getting blob data")),
                 }
@@ -280,7 +285,10 @@ async fn get_blob_verification_proof(
     Ok(blob_verification_proof)
 }
 
-async fn get_blob_from_operator_da_input(operator_da_input: Vec<u8>,disperser_url: &str) -> anyhow::Result<BlobData> {
+async fn get_blob_from_operator_da_input(
+    operator_da_input: Vec<u8>,
+    disperser_url: &str,
+) -> anyhow::Result<BlobData> {
     let param_types = vec![ParamType::Tuple(vec![
         // BlobHeader
         ParamType::Tuple(vec![
@@ -328,6 +336,6 @@ async fn get_blob_from_operator_da_input(operator_da_input: Vec<u8>,disperser_ur
         blob_verification_proof,
     };
 
-    let blob = get_blob(blob_info.clone(),disperser_url).await?;
+    let blob = get_blob(blob_info.clone(), disperser_url).await?;
     Ok(BlobData { blob_info, blob })
 }

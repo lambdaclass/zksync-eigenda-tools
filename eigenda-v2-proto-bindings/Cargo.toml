@@ -1,0 +1,11 @@
+[package]
+name = "eigenda_v2_proto_bindings"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+prost = "0.12.6"
+tonic = "0.11.0"
+
+[build-dependencies]
+tonic-build = "0.11.0"
