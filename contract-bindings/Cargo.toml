@@ -1,0 +1,11 @@
+[workspace]
+resolver = "2"
+
+members = ["crates/contract-bindings"]
+
+[workspace.package]
+authors = ["Layr Labs"]
+description = "Rust tooling to facilitate rollup integration with EigenDA"
+repository = "https://github.com/Layr-Labs/eigenda-rs"
+license = "MIT OR Apache-2.0"
+edition = "2021"

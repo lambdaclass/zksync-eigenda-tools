@@ -1,0 +1,3 @@
+[submodule "contract-bindings/crates/contract-bindings/eigenda"]
+	path = contract-bindings/crates/contract-bindings/eigenda
+	url = https://github.com/Layr-Labs/eigenda.git
