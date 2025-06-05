@@ -40,6 +40,7 @@ fn main() {
     let artifacts = [
         "IEigenDACertVerifier.sol/IEigenDACertVerifier.json",
         "IEigenDACertVerifierBase.sol/IEigenDACertVerifierBase.json",
+        "IEigenDACertVerifierRouter.sol/IEigenDACertVerifierRouter.json",
         // Add more artifacts as needed
     ];
 
@@ -69,6 +70,11 @@ fn main() {
     Abigen::new("IEigenDACertVerifierBase", output_abis_dir.join(json_file_name).to_str().unwrap()).unwrap()
         .generate().unwrap()
         .write_to_file(Path::new("src/IEigenDACertVerifierBase.rs")).unwrap();
+
+    let json_file_name = Path::new("IEigenDACertVerifierRouter.json").file_name().unwrap();
+    Abigen::new("IEigenDACertVerifierRouter", output_abis_dir.join(json_file_name).to_str().unwrap()).unwrap()
+        .generate().unwrap()
+        .write_to_file(Path::new("src/IEigenDACertVerifierRouter.rs")).unwrap();
 
     println!("cargo:rerun-if-changed=build.rs");
     println!("cargo:rerun-if-changed=eigenda/contracts/src");
