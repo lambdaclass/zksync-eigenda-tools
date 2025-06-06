@@ -1,9 +1,8 @@
+use ethers_contract_abigen::Abigen;
 use std::env;
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::Command;
-use ethers_contract_abigen::Abigen;
-
 
 // This build.rs script compiles the eigenda contracts (in the eigenda/contracts submodule dir)
 // and copies the artifacts to the src/generated/abis directory in this crate, such that they
@@ -40,6 +39,7 @@ fn main() {
     let artifacts = [
         "IEigenDACertVerifier.sol/IEigenDACertVerifier.json",
         "IEigenDACertVerifierBase.sol/IEigenDACertVerifierBase.json",
+        // "IEigenDARelayRegistry.sol/IEigenDARelayRegistry.json",
         // Add more artifacts as needed
     ];
 
@@ -61,14 +61,39 @@ fn main() {
     }
 
     let json_file_name = Path::new("IEigenDACertVerifier.json").file_name().unwrap();
-    Abigen::new("IEigenDACertVerifier", output_abis_dir.join(json_file_name).to_str().unwrap()).unwrap()
-        .generate().unwrap()
-        .write_to_file(Path::new("src/IEigenDACertVerifier.rs")).unwrap();
+    Abigen::new(
+        "IEigenDACertVerifier",
+        output_abis_dir.join(json_file_name).to_str().unwrap(),
+    )
+    .unwrap()
+    .generate()
+    .unwrap()
+    .write_to_file(Path::new("src/IEigenDACertVerifier.rs"))
+    .unwrap();
 
-    let json_file_name = Path::new("IEigenDACertVerifierBase.json").file_name().unwrap();
-    Abigen::new("IEigenDACertVerifierBase", output_abis_dir.join(json_file_name).to_str().unwrap()).unwrap()
-        .generate().unwrap()
-        .write_to_file(Path::new("src/IEigenDACertVerifierBase.rs")).unwrap();
+    // let json_file_name = Path::new("IEigenDARelayRegistry.json").file_name().unwrap();
+    // Abigen::new(
+    //     "IEigenDARelayRegistry",
+    //     output_abis_dir.join(json_file_name).to_str().unwrap(),
+    // )
+    // .unwrap()
+    // .generate()
+    // .unwrap()
+    // .write_to_file(Path::new("src/IEigenDACertVerifierBase.rs"))
+    // .unwrap();
+
+    let json_file_name = Path::new("IEigenDACertVerifierBase.json")
+        .file_name()
+        .unwrap();
+    Abigen::new(
+        "IEigenDACertVerifierBase",
+        output_abis_dir.join(json_file_name).to_str().unwrap(),
+    )
+    .unwrap()
+    .generate()
+    .unwrap()
+    .write_to_file(Path::new("src/IEigenDARelayRegistry.rs"))
+    .unwrap();
 
     println!("cargo:rerun-if-changed=build.rs");
     println!("cargo:rerun-if-changed=eigenda/contracts/src");
